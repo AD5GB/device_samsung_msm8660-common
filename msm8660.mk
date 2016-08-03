@@ -56,7 +56,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 PRODUCT_PROPERTY_OVERRIDES += \
     lpa.decode=false \
-    persist.sys.media.use-awesome=true \
     qcom.hw.aac.encoder=true \
     camera2.portability.force_api=1
 
@@ -85,6 +84,10 @@ PRODUCT_PACKAGES += \
     init.qcom.syspart_fixup.sh \
     lpm.rc \
     ueventd.qcom.rc
+
+# Recovery-Ramdisk
+PRODUCT_PACKAGES += \
+    twrp.fstab
 
 # Audio
 PRODUCT_PACKAGES += \
@@ -148,10 +151,9 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml
 
 PRODUCT_COPY_FILES += \
-    frameworks/av/media/libstagefright/data/media_codecs_ffmpeg.xml:system/etc/media_codecs_ffmpeg.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml
+    frameworks/av/media/libstagefright/data/media_codecs_google_video_le.xml:system/etc/media_codecs_google_video_le.xml
 
 # NFC
 PRODUCT_PACKAGES += \
@@ -210,9 +212,9 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf
 
-# Common Qualcomm hardware
-$(call inherit-product, device/samsung/qcom-common/qcom-common.mk)
+# Hardware bypass
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.hwc.mdpcomp.enable=false
 
-# MPDecision
-PRODUCT_COPY_FILES += \
-	device/samsung/msm8660-common/01mpdecision:system/etc/init.d/01mpdecision
+# Common Qualcomm hardware
+    $(call inherit-product, device/samsung/qcom-common/qcom-common.mk)
